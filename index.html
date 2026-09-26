@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+    <!-- D28: trang không được đánh chỉ mục. Đi kèm public/robots.txt. -->
+    <meta name="robots" content="noindex, nofollow" />
+
+    <title>Mèoo</title>
+    <meta name="description" content="Theo dõi nuôi mèo cho hai người" />
+
+    <!-- iOS: cần link này để icon trên màn hình chính không bị chụp ảnh trang. -->
+    <link rel="apple-touch-icon" href="/meoo/icons/placeholder-192.png" />
+    <link rel="icon" type="image/png" href="/meoo/icons/placeholder-192.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Mèoo" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="theme-color" content="#faf7f2" />
+
+    <!--
+      T-012/T-015: áp theme + token đã lưu TRƯỚC lần vẽ đầu (mở app ở theme tối không nháy nền sáng). Giữ thật nhỏ, bọc try.
+      Phép giải phải khớp resolveTheme() trong src/core/tokens/theme.ts — tokens.test.ts chạy script này để so.
+    -->
+    <script>
+      ;(function () {
+        var p = null, css = null
+        try {
+          p = localStorage.getItem('meoo.theme')
+          css = localStorage.getItem('meoo.tokens.css')
+        } catch (e) {}
+        try {
+          var dark = p === 'dark' || (p !== 'light' && !!window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)
+          document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light')
+          if (css && css.length < 50000) {
+            var s = document.createElement('style')
+            s.id = 'meoo-tokens'
+            s.textContent = css
+            document.head.appendChild(s)
+          }
+          // T-015: thanh trạng thái theo nền của theme ngay từ đầu (AppShell giữ nó đúng sau đó).
+          var bg = getComputedStyle(document.documentElement).getPropertyValue('--color-bg').trim()
+          var meta = document.querySelector('meta[name="theme-color"]')
+          if (bg && meta) meta.setAttribute('content', bg)
+        } catch (e) {}
+      })()
+    </script>
+    <script type="module" crossorigin src="/meoo/assets/index-Bfy_6XiJ.js"></script>
+    <link rel="modulepreload" crossorigin href="/meoo/assets/react-C6RTMQQ1.js">
+    <link rel="modulepreload" crossorigin href="/meoo/assets/firebase-DLciBfYC.js">
+    <link rel="stylesheet" crossorigin href="/meoo/assets/index-DtmlHBXa.css">
+  <link rel="manifest" href="/meoo/manifest.webmanifest"></head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

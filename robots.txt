@@ -1,0 +1,3 @@
+# Mèoo — app riêng của hai người, không dành cho công cụ tìm kiếm (D28).
+User-agent: *
+Disallow: /
